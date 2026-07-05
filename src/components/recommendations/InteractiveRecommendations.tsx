@@ -2,15 +2,31 @@
 
 import { useMemo, useState, useTransition } from "react";
 
-import {
-  getSurpriseRecommendationAction,
-  refreshRecommendationsAction,
-} from "@/app/(app)/dashboard/actions";
 import type { MusicRecommendation, SurpriseRecommendation } from "@/domain/recommendations";
 
 import { RecommendationGrid, RecommendationSkeletonGrid } from "./RecommendationGrid";
 import { RefreshButton } from "./RefreshButton";
 import { SurpriseModal } from "./SurpriseModal";
+
+type RecommendationsResponse = {
+  recommendations?: MusicRecommendation[];
+  error?: string;
+};
+
+type SurpriseResponse = {
+  recommendation?: SurpriseRecommendation;
+  error?: string;
+};
+
+async function readJsonResponse<T>(response: Response) {
+  const contentType = response.headers.get("content-type");
+
+  if (!contentType?.includes("application/json")) {
+    throw new Error("The server returned an unexpected response. Please refresh the page and try again.");
+  }
+
+  return (await response.json()) as T;
+}
 
 export function InteractiveRecommendations({
   initialRecommendations,
@@ -34,9 +50,24 @@ export function InteractiveRecommendations({
       setError(null);
 
       try {
-        const result = await refreshRecommendationsAction(excludedIds);
+        const response = await fetch("/api/recommendations", {
+          method: "POST",
+          credentials: "include",
+          cache: "no-store",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            excludedIds,
+          }),
+        });
+        const payload = await readJsonResponse<RecommendationsResponse>(response);
 
-        setRecommendations(result.recommendations);
+        if (!response.ok || !payload.recommendations) {
+          throw new Error(payload.error ?? "Unable to refresh recommendations.");
+        }
+
+        setRecommendations(payload.recommendations);
       } catch (caughtError) {
         setError(
           caughtError instanceof Error
@@ -54,9 +85,18 @@ export function InteractiveRecommendations({
       setIsSurpriseOpen(true);
 
       try {
-        const result = await getSurpriseRecommendationAction();
+        const response = await fetch("/api/surprise", {
+          method: "POST",
+          credentials: "include",
+          cache: "no-store",
+        });
+        const payload = await readJsonResponse<SurpriseResponse>(response);
 
-        setSurprise(result.recommendation);
+        if (!response.ok || !payload.recommendation) {
+          throw new Error(payload.error ?? "Unable to generate a surprise recommendation.");
+        }
+
+        setSurprise(payload.recommendation);
       } catch (caughtError) {
         setSurprise(null);
         setSurpriseError(

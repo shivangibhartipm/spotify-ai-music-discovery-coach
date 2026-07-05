@@ -8,7 +8,7 @@ import { checkRateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest) {
+async function handleSurpriseRequest(request: NextRequest) {
   const session = await getValidSession(request);
 
   if (!session) {
@@ -60,4 +60,12 @@ export async function GET(request: NextRequest) {
       },
     );
   }
+}
+
+export async function GET(request: NextRequest) {
+  return handleSurpriseRequest(request);
+}
+
+export async function POST(request: NextRequest) {
+  return handleSurpriseRequest(request);
 }

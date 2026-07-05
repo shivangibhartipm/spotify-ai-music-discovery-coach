@@ -8,6 +8,10 @@ import { checkRateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
+type RecommendationsRequestBody = {
+  excludedIds?: string[];
+};
+
 function parseExcludedIds(request: NextRequest) {
   const queryExcludedIds = request.nextUrl.searchParams.getAll("exclude");
 
@@ -23,7 +27,22 @@ function mergeShownIds(existingIds: string[] = [], newIds: string[] = []) {
   return [...new Set([...existingIds, ...newIds])].slice(-50);
 }
 
-export async function GET(request: NextRequest) {
+async function parseRequestBodyExcludedIds(request: NextRequest) {
+  try {
+    const body = (await request.json()) as RecommendationsRequestBody;
+
+    return Array.isArray(body.excludedIds)
+      ? body.excludedIds
+          .filter((id): id is string => typeof id === "string")
+          .map((id) => id.trim())
+          .filter(Boolean)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+async function handleRecommendationsRequest(request: NextRequest, excludedIds: string[]) {
   const session = await getValidSession(request);
 
   if (!session) {
@@ -56,14 +75,10 @@ export async function GET(request: NextRequest) {
 
     const provider = getProfileProvider(session);
     const profile = await provider.getProfile(session);
-    const excludedIds = [
-      ...(session.shownRecommendationIds ?? []),
-      ...parseExcludedIds(request),
-    ];
     const recommendations = await getMusicRecommendations({
       profile,
       session,
-      excludedIds,
+      excludedIds: [...(session.shownRecommendationIds ?? []), ...excludedIds],
     });
     const updatedSession = {
       ...session,
@@ -87,4 +102,12 @@ export async function GET(request: NextRequest) {
       },
     );
   }
+}
+
+export async function GET(request: NextRequest) {
+  return handleRecommendationsRequest(request, parseExcludedIds(request));
+}
+
+export async function POST(request: NextRequest) {
+  return handleRecommendationsRequest(request, await parseRequestBodyExcludedIds(request));
 }
