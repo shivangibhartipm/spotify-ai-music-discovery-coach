@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 import { getSessionEnv } from "@/lib/config/env";
 
@@ -25,6 +25,18 @@ const cookieDefaults = {
   path: "/",
 };
 
+function normalizeCookieValue(value: string | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
 function getCookieFromHeader(cookieHeader: string | null, name: string) {
   if (!cookieHeader) {
     return undefined;
@@ -42,34 +54,36 @@ function getCookieFromHeader(cookieHeader: string | null, name: string) {
     const value = trimmed.slice(separatorIndex + 1);
 
     if (key === name) {
-      return value;
+      return normalizeCookieValue(value);
     }
   }
 
   return undefined;
 }
 
-async function readSessionCookieValue(request?: NextRequest) {
+async function collectSessionCookieValues(request?: NextRequest) {
+  const cookieValues = new Set<string>();
+
+  const addCookieValue = (value: string | undefined) => {
+    const normalizedValue = normalizeCookieValue(value);
+
+    if (normalizedValue) {
+      cookieValues.add(normalizedValue);
+    }
+  };
+
   if (request) {
-    const requestCookieValue = request.cookies.get(SESSION_COOKIE_NAME)?.value;
-
-    if (requestCookieValue) {
-      return requestCookieValue;
-    }
-
-    const headerCookieValue = getCookieFromHeader(
-      request.headers.get("cookie"),
-      SESSION_COOKIE_NAME,
-    );
-
-    if (headerCookieValue) {
-      return headerCookieValue;
-    }
+    addCookieValue(request.cookies.get(SESSION_COOKIE_NAME)?.value);
+    addCookieValue(getCookieFromHeader(request.headers.get("cookie"), SESSION_COOKIE_NAME));
   }
 
-  const cookieStore = await cookies();
+  const headerStore = await headers();
+  addCookieValue(getCookieFromHeader(headerStore.get("cookie"), SESSION_COOKIE_NAME));
 
-  return cookieStore.get(SESSION_COOKIE_NAME)?.value;
+  const cookieStore = await cookies();
+  addCookieValue(cookieStore.get(SESSION_COOKIE_NAME)?.value);
+
+  return [...cookieValues];
 }
 
 async function decryptSession(cookieValue: string | undefined) {
@@ -101,7 +115,15 @@ export async function applySessionCookie(response: NextResponse, session: AppSes
 }
 
 export async function getSession(request?: NextRequest) {
-  return decryptSession(await readSessionCookieValue(request));
+  for (const cookieValue of await collectSessionCookieValues(request)) {
+    const session = await decryptSession(cookieValue);
+
+    if (session) {
+      return session;
+    }
+  }
+
+  return null;
 }
 
 async function resolveValidSession(session: AppSession | null) {
@@ -133,15 +155,20 @@ async function resolveValidSession(session: AppSession | null) {
   }
 }
 
-export async function getValidSession(request?: NextRequest) {
-  const session = await getSession(request);
+type GetValidSessionOptions = {
+  persistRefreshedSession?: boolean;
+};
+
+export async function getValidSession(options?: GetValidSessionOptions) {
+  const session = await getSession();
   const validSession = await resolveValidSession(session);
   const tokenWasRefreshed =
     validSession?.mode === "spotify" &&
     session?.mode === "spotify" &&
     validSession.accessToken !== session.accessToken;
+  const persistRefreshedSession = options?.persistRefreshedSession ?? true;
 
-  if (tokenWasRefreshed) {
+  if (tokenWasRefreshed && validSession && persistRefreshedSession) {
     await setSession(validSession);
   }
 

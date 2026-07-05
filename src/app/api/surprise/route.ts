@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 import { getSurpriseRecommendation } from "@/domain/recommendations";
 import { getProfileProvider } from "@/integration/profile-provider";
@@ -8,13 +8,7 @@ import { checkRateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
-async function handleSurpriseRequest(request: NextRequest) {
-  const session = await getValidSession(request);
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
+async function handleSurpriseRequest(session: NonNullable<Awaited<ReturnType<typeof getValidSession>>>) {
   try {
     if (session.mode === "demo") {
       const rateLimit = checkRateLimit({
@@ -62,10 +56,22 @@ async function handleSurpriseRequest(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
-  return handleSurpriseRequest(request);
+export async function GET() {
+  const session = await getValidSession({ persistRefreshedSession: false });
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  return handleSurpriseRequest(session);
 }
 
-export async function POST(request: NextRequest) {
-  return handleSurpriseRequest(request);
+export async function POST() {
+  const session = await getValidSession({ persistRefreshedSession: false });
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  return handleSurpriseRequest(session);
 }

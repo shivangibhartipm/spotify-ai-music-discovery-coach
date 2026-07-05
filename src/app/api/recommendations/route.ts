@@ -42,13 +42,10 @@ async function parseRequestBodyExcludedIds(request: NextRequest) {
   }
 }
 
-async function handleRecommendationsRequest(request: NextRequest, excludedIds: string[]) {
-  const session = await getValidSession(request);
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
+async function handleRecommendationsRequest(
+  excludedIds: string[],
+  session: NonNullable<Awaited<ReturnType<typeof getValidSession>>>,
+) {
   try {
     if (session.mode === "demo") {
       const rateLimit = checkRateLimit({
@@ -105,9 +102,21 @@ async function handleRecommendationsRequest(request: NextRequest, excludedIds: s
 }
 
 export async function GET(request: NextRequest) {
-  return handleRecommendationsRequest(request, parseExcludedIds(request));
+  const session = await getValidSession({ persistRefreshedSession: false });
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  return handleRecommendationsRequest(parseExcludedIds(request), session);
 }
 
 export async function POST(request: NextRequest) {
-  return handleRecommendationsRequest(request, await parseRequestBodyExcludedIds(request));
+  const session = await getValidSession({ persistRefreshedSession: false });
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  return handleRecommendationsRequest(await parseRequestBodyExcludedIds(request), session);
 }
