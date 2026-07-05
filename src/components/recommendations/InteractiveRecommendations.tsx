@@ -47,7 +47,9 @@ export function InteractiveRecommendations({
           searchParams.append("exclude", id);
         }
 
-        const response = await fetch(`/api/recommendations?${searchParams.toString()}`);
+        const response = await fetch(`/api/recommendations?${searchParams.toString()}`, {
+          credentials: "same-origin",
+        });
         const payload = (await response.json()) as RecommendationsResponse;
 
         if (!response.ok || !payload.recommendations) {
@@ -72,7 +74,9 @@ export function InteractiveRecommendations({
       setIsSurpriseOpen(true);
 
       try {
-        const response = await fetch("/api/surprise");
+        const response = await fetch("/api/surprise", {
+          credentials: "same-origin",
+        });
         const payload = (await response.json()) as SurpriseResponse;
 
         if (!response.ok || !payload.recommendation) {

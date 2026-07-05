@@ -1,14 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { getMusicRecommendations } from "@/domain/recommendations";
 import { getProfileProvider } from "@/integration/profile-provider";
-import { getValidSession, setSession } from "@/lib/auth/session";
+import { applySessionCookie, getValidSession } from "@/lib/auth/session";
 import { formatConfigError } from "@/lib/config/errors";
 import { checkRateLimit } from "@/lib/rate-limit";
 
-function parseExcludedIds(request: Request) {
-  const url = new URL(request.url);
-  const queryExcludedIds = url.searchParams.getAll("exclude");
+export const dynamic = "force-dynamic";
+
+function parseExcludedIds(request: NextRequest) {
+  const queryExcludedIds = request.nextUrl.searchParams.getAll("exclude");
 
   return queryExcludedIds.flatMap((value) =>
     value
@@ -22,8 +23,8 @@ function mergeShownIds(existingIds: string[] = [], newIds: string[] = []) {
   return [...new Set([...existingIds, ...newIds])].slice(-50);
 }
 
-export async function GET(request: Request) {
-  const session = await getValidSession();
+export async function GET(request: NextRequest) {
+  const session = await getValidSession(request);
 
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -64,17 +65,18 @@ export async function GET(request: Request) {
       session,
       excludedIds,
     });
-    const shownRecommendationIds = mergeShownIds(
-      session.shownRecommendationIds,
-      recommendations.map((recommendation) => recommendation.id),
-    );
-
-    await setSession({
+    const updatedSession = {
       ...session,
-      shownRecommendationIds,
-    });
+      shownRecommendationIds: mergeShownIds(
+        session.shownRecommendationIds,
+        recommendations.map((recommendation) => recommendation.id),
+      ),
+    };
+    const response = NextResponse.json({ recommendations });
 
-    return NextResponse.json({ recommendations });
+    await applySessionCookie(response, updatedSession);
+
+    return response;
   } catch (error) {
     return NextResponse.json(
       {

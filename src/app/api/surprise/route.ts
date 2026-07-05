@@ -1,13 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { getSurpriseRecommendation } from "@/domain/recommendations";
 import { getProfileProvider } from "@/integration/profile-provider";
-import { getValidSession } from "@/lib/auth/session";
+import { applySessionCookie, getValidSession } from "@/lib/auth/session";
 import { formatConfigError } from "@/lib/config/errors";
 import { checkRateLimit } from "@/lib/rate-limit";
 
-export async function GET() {
-  const session = await getValidSession();
+export const dynamic = "force-dynamic";
+
+export async function GET(request: NextRequest) {
+  const session = await getValidSession(request);
 
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -43,8 +45,11 @@ export async function GET() {
       profile,
       session,
     });
+    const response = NextResponse.json({ recommendation });
 
-    return NextResponse.json({ recommendation });
+    await applySessionCookie(response, session);
+
+    return response;
   } catch (error) {
     return NextResponse.json(
       {

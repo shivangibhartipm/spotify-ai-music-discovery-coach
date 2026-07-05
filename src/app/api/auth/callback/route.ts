@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { clearOAuthState, getOAuthState, setSession } from "@/lib/auth/session";
+import { clearOAuthState, getOAuthState, applySessionCookie } from "@/lib/auth/session";
 import { exchangeCodeForTokens } from "@/lib/auth/spotify-oauth";
 import { env } from "@/lib/config/env";
 import { formatConfigError } from "@/lib/config/errors";
@@ -47,13 +47,16 @@ export async function GET(request: NextRequest) {
   try {
     const tokens = await exchangeCodeForTokens(code, storedState.codeVerifier);
 
-    await setSession({
+    await clearOAuthState();
+
+    const response = NextResponse.redirect(new URL("/dashboard", env.APP_BASE_URL));
+
+    await applySessionCookie(response, {
       mode: "spotify",
       ...tokens,
     });
-    await clearOAuthState();
 
-    return NextResponse.redirect(new URL("/dashboard", env.APP_BASE_URL));
+    return response;
   } catch (error) {
     console.error("Spotify callback failed:", error);
     await clearOAuthState();
