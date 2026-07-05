@@ -17,12 +17,18 @@ import { refreshSpotifyAccessToken } from "./spotify-oauth";
 
 const sessionMaxAgeSeconds = 60 * 60 * 24 * 7;
 const oauthMaxAgeSeconds = 60 * 10;
+const interactionTokenMaxAgeMs = 15 * 60 * 1000;
 
 const cookieDefaults = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "lax" as const,
+  sameSite: process.env.NODE_ENV === "production" ? ("none" as const) : ("lax" as const),
   path: "/",
+};
+
+type SessionInteractionToken = {
+  session: AppSession;
+  expiresAt: number;
 };
 
 function normalizeCookieValue(value: string | undefined) {
@@ -92,6 +98,37 @@ async function decryptSession(cookieValue: string | undefined) {
   return decryptCookieValue<AppSession>(cookieValue, secret);
 }
 
+function getInteractionTokenFromRequest(request?: NextRequest) {
+  if (!request) {
+    return undefined;
+  }
+
+  const tokenHeader = request.headers.get("x-adc-session-token");
+
+  if (tokenHeader) {
+    return tokenHeader;
+  }
+
+  const authorizationHeader = request.headers.get("authorization");
+  const [scheme, token] = authorizationHeader?.split(" ") ?? [];
+
+  return scheme?.toLowerCase() === "bearer" ? token : undefined;
+}
+
+async function decryptInteractionToken(token: string | undefined) {
+  const secret = getSessionEnv().SESSION_SECRET;
+  const payload = await decryptCookieValue<SessionInteractionToken>(
+    normalizeCookieValue(token),
+    secret,
+  );
+
+  if (!payload || payload.expiresAt <= Date.now()) {
+    return null;
+  }
+
+  return payload.session;
+}
+
 export async function createSessionCookie(session: AppSession) {
   const secret = getSessionEnv().SESSION_SECRET;
   const encryptedSession = await encryptCookieValue(session, secret);
@@ -123,7 +160,7 @@ export async function getSession(request?: NextRequest) {
     }
   }
 
-  return null;
+  return decryptInteractionToken(getInteractionTokenFromRequest(request));
 }
 
 async function resolveValidSession(session: AppSession | null) {
@@ -159,8 +196,18 @@ type GetValidSessionOptions = {
   persistRefreshedSession?: boolean;
 };
 
-export async function getValidSession(options?: GetValidSessionOptions) {
-  const session = await getSession();
+function isNextRequest(value: NextRequest | GetValidSessionOptions | undefined): value is NextRequest {
+  return Boolean(value && "cookies" in value && "headers" in value);
+}
+
+export async function getValidSession(
+  requestOrOptions?: NextRequest | GetValidSessionOptions,
+  maybeOptions?: GetValidSessionOptions,
+) {
+  const hasRequest = isNextRequest(requestOrOptions);
+  const request = hasRequest ? requestOrOptions : undefined;
+  const options: GetValidSessionOptions | undefined = hasRequest ? maybeOptions : requestOrOptions;
+  const session = await getSession(request);
   const validSession = await resolveValidSession(session);
   const tokenWasRefreshed =
     validSession?.mode === "spotify" &&
@@ -173,6 +220,18 @@ export async function getValidSession(options?: GetValidSessionOptions) {
   }
 
   return validSession;
+}
+
+export async function createSessionInteractionToken(session: AppSession) {
+  const secret = getSessionEnv().SESSION_SECRET;
+
+  return encryptCookieValue(
+    {
+      session,
+      expiresAt: Date.now() + interactionTokenMaxAgeMs,
+    } satisfies SessionInteractionToken,
+    secret,
+  );
 }
 
 export async function setSession(session: AppSession) {

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { getSurpriseRecommendation } from "@/domain/recommendations";
 import { getProfileProvider } from "@/integration/profile-provider";
@@ -56,8 +56,8 @@ async function handleSurpriseRequest(session: NonNullable<Awaited<ReturnType<typ
   }
 }
 
-export async function GET() {
-  const session = await getValidSession({ persistRefreshedSession: false });
+export async function GET(request: NextRequest) {
+  const session = await getValidSession(request, { persistRefreshedSession: false });
 
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -66,8 +66,8 @@ export async function GET() {
   return handleSurpriseRequest(session);
 }
 
-export async function POST() {
-  const session = await getValidSession({ persistRefreshedSession: false });
+export async function POST(request: NextRequest) {
+  const session = await getValidSession(request, { persistRefreshedSession: false });
 
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

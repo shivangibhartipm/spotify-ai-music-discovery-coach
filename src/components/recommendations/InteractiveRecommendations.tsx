@@ -30,8 +30,10 @@ async function readJsonResponse<T>(response: Response) {
 
 export function InteractiveRecommendations({
   initialRecommendations,
+  sessionToken,
 }: {
   initialRecommendations: MusicRecommendation[];
+  sessionToken?: string | null;
 }) {
   const [recommendations, setRecommendations] = useState(initialRecommendations);
   const [error, setError] = useState<string | null>(null);
@@ -56,6 +58,7 @@ export function InteractiveRecommendations({
           cache: "no-store",
           headers: {
             "Content-Type": "application/json",
+            ...(sessionToken ? { "X-ADC-Session-Token": sessionToken } : {}),
           },
           body: JSON.stringify({
             excludedIds,
@@ -89,6 +92,7 @@ export function InteractiveRecommendations({
           method: "POST",
           credentials: "include",
           cache: "no-store",
+          headers: sessionToken ? { "X-ADC-Session-Token": sessionToken } : undefined,
         });
         const payload = await readJsonResponse<SurpriseResponse>(response);
 

@@ -6,7 +6,7 @@ import { DiscoveryScore } from "@/components/insights/DiscoveryScore";
 import { InsightsOverview } from "@/components/insights/InsightsOverview";
 import { InteractiveRecommendations } from "@/components/recommendations/InteractiveRecommendations";
 import { getProfileProvider } from "@/integration/profile-provider";
-import { getValidSession } from "@/lib/auth/session";
+import { createSessionInteractionToken, getValidSession } from "@/lib/auth/session";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -39,6 +39,7 @@ export default async function DashboardPage() {
     }
   })();
   const profile = profileResult.profile;
+  const interactionToken = session ? await createSessionInteractionToken(session) : null;
   const analysis = profile ? analyzeProfile(profile) : null;
   const discoveryScore = analysis ? getDiscoveryScore(analysis) : null;
   const recommendationResult = await (async () => {
@@ -184,6 +185,7 @@ export default async function DashboardPage() {
           ) : (
             <InteractiveRecommendations
               initialRecommendations={recommendationResult.recommendations}
+              sessionToken={interactionToken}
             />
           )}
         </section>
