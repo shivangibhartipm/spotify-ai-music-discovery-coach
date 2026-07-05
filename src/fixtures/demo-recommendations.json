@@ -1,0 +1,92 @@
+[
+  {
+    "id": "demo-sweet-disposition",
+    "songTitle": "Sweet Disposition",
+    "artist": "The Temper Trap",
+    "genre": "indie rock",
+    "explanation": "Recommended because your profile leans into emotional, melodic songs, and this keeps the same anthemic feeling while moving outside Bollywood and Indian pop.",
+    "albumArtworkUrl": "https://placehold.co/640x640/121212/1DB954?text=Sweet+Disposition",
+    "spotifyUrl": "https://open.spotify.com/search/Sweet%20Disposition%20The%20Temper%20Trap"
+  },
+  {
+    "id": "demo-midnight-city",
+    "songTitle": "Midnight City",
+    "artist": "M83",
+    "genre": "synth pop",
+    "explanation": "Recommended because you enjoy polished pop hooks and repeatable choruses. This adds a dreamy electronic texture without becoming too far from your comfort zone.",
+    "albumArtworkUrl": "https://placehold.co/640x640/121212/1DB954?text=Midnight+City",
+    "spotifyUrl": "https://open.spotify.com/search/Midnight%20City%20M83"
+  },
+  {
+    "id": "demo-electric-love",
+    "songTitle": "Electric Love",
+    "artist": "BORNS",
+    "genre": "alt pop",
+    "explanation": "Recommended because your top tracks favor romantic, high-emotion vocals. This keeps that emotional pull but introduces a brighter alternative-pop sound.",
+    "albumArtworkUrl": "https://placehold.co/640x640/121212/1DB954?text=Electric+Love",
+    "spotifyUrl": "https://open.spotify.com/search/Electric%20Love%20BORNS"
+  },
+  {
+    "id": "demo-innerbloom",
+    "songTitle": "Innerbloom",
+    "artist": "RUFUS DU SOL",
+    "genre": "electronic",
+    "explanation": "Recommended because your listening shows comfort with immersive, emotional tracks. This stretches toward electronic music while preserving a cinematic mood.",
+    "albumArtworkUrl": "https://placehold.co/640x640/121212/1DB954?text=Innerbloom",
+    "spotifyUrl": "https://open.spotify.com/search/Innerbloom%20RUFUS%20DU%20SOL"
+  },
+  {
+    "id": "demo-holocene",
+    "songTitle": "Holocene",
+    "artist": "Bon Iver",
+    "genre": "indie folk",
+    "explanation": "Recommended because you often listen to soulful, reflective songs. This introduces indie folk with gentle instrumentation and a strong emotional center.",
+    "albumArtworkUrl": "https://placehold.co/640x640/121212/1DB954?text=Holocene",
+    "spotifyUrl": "https://open.spotify.com/search/Holocene%20Bon%20Iver"
+  },
+  {
+    "id": "demo-heartbeats",
+    "songTitle": "Heartbeats",
+    "artist": "Jose Gonzalez",
+    "genre": "acoustic folk",
+    "explanation": "Recommended because your listening favors emotional melodies. This keeps the intimate feeling but shifts toward stripped-back acoustic storytelling.",
+    "albumArtworkUrl": "https://placehold.co/640x640/121212/1DB954?text=Heartbeats",
+    "spotifyUrl": "https://open.spotify.com/search/Heartbeats%20Jose%20Gonzalez"
+  },
+  {
+    "id": "demo-young-blood",
+    "songTitle": "Young Blood",
+    "artist": "The Naked And Famous",
+    "genre": "indie pop",
+    "explanation": "Recommended because you enjoy catchy pop structure and big choruses. This expands into indie pop while keeping a replay-friendly hook.",
+    "albumArtworkUrl": "https://placehold.co/640x640/121212/1DB954?text=Young+Blood",
+    "spotifyUrl": "https://open.spotify.com/search/Young%20Blood%20The%20Naked%20And%20Famous"
+  },
+  {
+    "id": "demo-taro",
+    "songTitle": "Taro",
+    "artist": "alt-J",
+    "genre": "art rock",
+    "explanation": "Recommended because your profile includes cinematic and layered tracks. This adds a more experimental rhythm while staying melodic.",
+    "albumArtworkUrl": "https://placehold.co/640x640/121212/1DB954?text=Taro",
+    "spotifyUrl": "https://open.spotify.com/search/Taro%20alt-J"
+  },
+  {
+    "id": "demo-open-season",
+    "songTitle": "Open Season",
+    "artist": "High Highs",
+    "genre": "dream pop",
+    "explanation": "Recommended because your comfort-zone tracks lean romantic and atmospheric. This gently expands into dream pop with soft vocals and warm textures.",
+    "albumArtworkUrl": "https://placehold.co/640x640/121212/1DB954?text=Open+Season",
+    "spotifyUrl": "https://open.spotify.com/search/Open%20Season%20High%20Highs"
+  },
+  {
+    "id": "demo-sunset-lover",
+    "songTitle": "Sunset Lover",
+    "artist": "Petit Biscuit",
+    "genre": "chill electronic",
+    "explanation": "Recommended because your listening shows room for low-pressure exploration. This introduces electronic music in a smooth, melodic way.",
+    "albumArtworkUrl": "https://placehold.co/640x640/121212/1DB954?text=Sunset+Lover",
+    "spotifyUrl": "https://open.spotify.com/search/Sunset%20Lover%20Petit%20Biscuit"
+  }
+]

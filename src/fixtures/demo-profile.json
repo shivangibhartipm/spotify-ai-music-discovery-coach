@@ -1,0 +1,244 @@
+{
+  "topArtists": [
+    {
+      "id": "4YRxDV8wJFPHPTeXepOstw",
+      "name": "Arijit Singh",
+      "genres": ["bollywood", "filmi", "indian pop"],
+      "spotifyUrl": "https://open.spotify.com/artist/4YRxDV8wJFPHPTeXepOstw"
+    },
+    {
+      "id": "6LEG9Ld1aLImEFEVHdWNSB",
+      "name": "King",
+      "genres": ["indian pop", "desi hip hop"],
+      "spotifyUrl": "https://open.spotify.com/artist/6LEG9Ld1aLImEFEVHdWNSB"
+    },
+    {
+      "id": "1mYsTxnqsietFxj1OgoGbG",
+      "name": "A.R. Rahman",
+      "genres": ["filmi", "indian classical", "tamil pop"],
+      "spotifyUrl": "https://open.spotify.com/artist/1mYsTxnqsietFxj1OgoGbG"
+    },
+    {
+      "id": "1wRPtKGflJrBx9BmLsSwlU",
+      "name": "Pritam",
+      "genres": ["bollywood", "filmi"],
+      "spotifyUrl": "https://open.spotify.com/artist/1wRPtKGflJrBx9BmLsSwlU"
+    },
+    {
+      "id": "5wJ1H6ud777odtZl5gG507",
+      "name": "Vishal-Shekhar",
+      "genres": ["bollywood", "filmi"],
+      "spotifyUrl": "https://open.spotify.com/artist/5wJ1H6ud777odtZl5gG507"
+    },
+    {
+      "id": "1dVygo6tRFXC8CSWURQJq2",
+      "name": "Atif Aslam",
+      "genres": ["pakistani pop", "bollywood", "filmi"],
+      "spotifyUrl": "https://open.spotify.com/artist/1dVygo6tRFXC8CSWURQJq2"
+    }
+  ],
+  "topTracks": [
+    {
+      "id": "4nc6XiUze2Yh7wFueGOPv7",
+      "title": "Tum Hi Ho",
+      "artistNames": ["Arijit Singh"],
+      "albumName": "Aashiqui 2",
+      "albumArtworkUrl": "https://i.scdn.co/image/ab67616d0000b273f0f2f8f5f4c0f6d6d7f2f7f1",
+      "genres": ["bollywood", "filmi"],
+      "spotifyUrl": "https://open.spotify.com/track/4nc6XiUze2Yh7wFueGOPv7"
+    },
+    {
+      "id": "3ZFTkvIE7kyPt6Nu3PEa7V",
+      "title": "Maan Meri Jaan",
+      "artistNames": ["King"],
+      "albumName": "Champagne Talk",
+      "albumArtworkUrl": "https://i.scdn.co/image/ab67616d0000b273bd6f1d4c5b735ac5b2d4c51a",
+      "genres": ["indian pop"],
+      "spotifyUrl": "https://open.spotify.com/track/3ZFTkvIE7kyPt6Nu3PEa7V"
+    },
+    {
+      "id": "6T4s6S2l4J7V3q2vZ1sX2A",
+      "title": "Channa Mereya",
+      "artistNames": ["Arijit Singh", "Pritam"],
+      "albumName": "Ae Dil Hai Mushkil",
+      "albumArtworkUrl": "https://i.scdn.co/image/ab67616d0000b273d1f7e1c738f0e6acfa3d4f01",
+      "genres": ["bollywood", "filmi"],
+      "spotifyUrl": "https://open.spotify.com/track/6T4s6S2l4J7V3q2vZ1sX2A"
+    },
+    {
+      "id": "0WdbnNKO0Jt4BZACSDQh44",
+      "title": "Raabta",
+      "artistNames": ["Arijit Singh", "Pritam"],
+      "albumName": "Agent Vinod",
+      "albumArtworkUrl": "https://i.scdn.co/image/ab67616d0000b273cba59dd9cba9c88cb8a81f57",
+      "genres": ["bollywood", "filmi"],
+      "spotifyUrl": "https://open.spotify.com/track/0WdbnNKO0Jt4BZACSDQh44"
+    },
+    {
+      "id": "5PUXKVVVQ74C3gl5vKy9Li",
+      "title": "Kesariya",
+      "artistNames": ["Arijit Singh", "Pritam"],
+      "albumName": "Brahmastra",
+      "albumArtworkUrl": "https://i.scdn.co/image/ab67616d0000b273fdd4cc7defb987b4f3fd38fd",
+      "genres": ["bollywood", "filmi"],
+      "spotifyUrl": "https://open.spotify.com/track/5PUXKVVVQ74C3gl5vKy9Li"
+    },
+    {
+      "id": "7D7EH7MGyNHWSkqrszerI1",
+      "title": "Kun Faya Kun",
+      "artistNames": ["A.R. Rahman", "Javed Ali", "Mohit Chauhan"],
+      "albumName": "Rockstar",
+      "albumArtworkUrl": "https://i.scdn.co/image/ab67616d0000b273abf56d9d5de2f673e99f3750",
+      "genres": ["filmi", "sufi"],
+      "spotifyUrl": "https://open.spotify.com/track/7D7EH7MGyNHWSkqrszerI1"
+    },
+    {
+      "id": "6habFhsOp2NvshLv26DqMb",
+      "title": "Despacito",
+      "artistNames": ["Luis Fonsi", "Daddy Yankee"],
+      "albumName": "VIDA",
+      "albumArtworkUrl": "https://i.scdn.co/image/ab67616d0000b273ef0d4234d91cb5d4726f9b36",
+      "genres": ["latin pop", "reggaeton"],
+      "spotifyUrl": "https://open.spotify.com/track/6habFhsOp2NvshLv26DqMb"
+    },
+    {
+      "id": "0VjIjW4GlUZAMYd2vXMi3b",
+      "title": "Blinding Lights",
+      "artistNames": ["The Weeknd"],
+      "albumName": "After Hours",
+      "albumArtworkUrl": "https://i.scdn.co/image/ab67616d0000b2738863bc11d2aa12b54f5aeb36",
+      "genres": ["synth pop", "pop"],
+      "spotifyUrl": "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b"
+    },
+    {
+      "id": "4LRPiXqCikLlN15c3yImP7",
+      "title": "As It Was",
+      "artistNames": ["Harry Styles"],
+      "albumName": "Harry's House",
+      "albumArtworkUrl": "https://i.scdn.co/image/ab67616d0000b273b46f74097655d7f353caab14",
+      "genres": ["pop"],
+      "spotifyUrl": "https://open.spotify.com/track/4LRPiXqCikLlN15c3yImP7"
+    },
+    {
+      "id": "1rgnBhdG2JDFTbYkYRZAku",
+      "title": "Dance Monkey",
+      "artistNames": ["Tones And I"],
+      "albumName": "The Kids Are Coming",
+      "albumArtworkUrl": "https://i.scdn.co/image/ab67616d0000b27338802659d156935ada63c9e3",
+      "genres": ["pop"],
+      "spotifyUrl": "https://open.spotify.com/track/1rgnBhdG2JDFTbYkYRZAku"
+    },
+    {
+      "id": "2takcwOaAZWiXQijPHIx7B",
+      "title": "Time",
+      "artistNames": ["Pink Floyd"],
+      "albumName": "The Dark Side of the Moon",
+      "albumArtworkUrl": "https://i.scdn.co/image/ab67616d0000b273f05e5ac32fdd79e8ee960f0d",
+      "genres": ["classic rock", "progressive rock"],
+      "spotifyUrl": "https://open.spotify.com/track/2takcwOaAZWiXQijPHIx7B"
+    },
+    {
+      "id": "6UelLqGlWMcVH1E5c4H7lY",
+      "title": "Watermelon Sugar",
+      "artistNames": ["Harry Styles"],
+      "albumName": "Fine Line",
+      "albumArtworkUrl": "https://i.scdn.co/image/ab67616d0000b273c39f2e844c352cc4a169883e",
+      "genres": ["pop"],
+      "spotifyUrl": "https://open.spotify.com/track/6UelLqGlWMcVH1E5c4H7lY"
+    }
+  ],
+  "recentlyPlayed": [
+    {
+      "id": "4nc6XiUze2Yh7wFueGOPv7",
+      "title": "Tum Hi Ho",
+      "artistNames": ["Arijit Singh"],
+      "albumName": "Aashiqui 2",
+      "genres": ["bollywood", "filmi"],
+      "spotifyUrl": "https://open.spotify.com/track/4nc6XiUze2Yh7wFueGOPv7",
+      "playedAt": "2026-07-04T17:35:00.000Z"
+    },
+    {
+      "id": "3ZFTkvIE7kyPt6Nu3PEa7V",
+      "title": "Maan Meri Jaan",
+      "artistNames": ["King"],
+      "albumName": "Champagne Talk",
+      "genres": ["indian pop"],
+      "spotifyUrl": "https://open.spotify.com/track/3ZFTkvIE7kyPt6Nu3PEa7V",
+      "playedAt": "2026-07-04T17:28:00.000Z"
+    },
+    {
+      "id": "6T4s6S2l4J7V3q2vZ1sX2A",
+      "title": "Channa Mereya",
+      "artistNames": ["Arijit Singh", "Pritam"],
+      "albumName": "Ae Dil Hai Mushkil",
+      "genres": ["bollywood", "filmi"],
+      "spotifyUrl": "https://open.spotify.com/track/6T4s6S2l4J7V3q2vZ1sX2A",
+      "playedAt": "2026-07-04T17:21:00.000Z"
+    },
+    {
+      "id": "0WdbnNKO0Jt4BZACSDQh44",
+      "title": "Raabta",
+      "artistNames": ["Arijit Singh", "Pritam"],
+      "albumName": "Agent Vinod",
+      "genres": ["bollywood", "filmi"],
+      "spotifyUrl": "https://open.spotify.com/track/0WdbnNKO0Jt4BZACSDQh44",
+      "playedAt": "2026-07-04T16:58:00.000Z"
+    },
+    {
+      "id": "4nc6XiUze2Yh7wFueGOPv7",
+      "title": "Tum Hi Ho",
+      "artistNames": ["Arijit Singh"],
+      "albumName": "Aashiqui 2",
+      "genres": ["bollywood", "filmi"],
+      "spotifyUrl": "https://open.spotify.com/track/4nc6XiUze2Yh7wFueGOPv7",
+      "playedAt": "2026-07-04T16:47:00.000Z"
+    },
+    {
+      "id": "7D7EH7MGyNHWSkqrszerI1",
+      "title": "Kun Faya Kun",
+      "artistNames": ["A.R. Rahman", "Javed Ali", "Mohit Chauhan"],
+      "albumName": "Rockstar",
+      "genres": ["filmi", "sufi"],
+      "spotifyUrl": "https://open.spotify.com/track/7D7EH7MGyNHWSkqrszerI1",
+      "playedAt": "2026-07-04T16:31:00.000Z"
+    },
+    {
+      "id": "5PUXKVVVQ74C3gl5vKy9Li",
+      "title": "Kesariya",
+      "artistNames": ["Arijit Singh", "Pritam"],
+      "albumName": "Brahmastra",
+      "genres": ["bollywood", "filmi"],
+      "spotifyUrl": "https://open.spotify.com/track/5PUXKVVVQ74C3gl5vKy9Li",
+      "playedAt": "2026-07-04T16:18:00.000Z"
+    },
+    {
+      "id": "0VjIjW4GlUZAMYd2vXMi3b",
+      "title": "Blinding Lights",
+      "artistNames": ["The Weeknd"],
+      "albumName": "After Hours",
+      "genres": ["synth pop", "pop"],
+      "spotifyUrl": "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b",
+      "playedAt": "2026-07-04T15:42:00.000Z"
+    }
+  ],
+  "playlists": [
+    {
+      "id": "demo-bollywood-repeat",
+      "name": "Bollywood Repeat Mode",
+      "trackCount": 42,
+      "spotifyUrl": "https://open.spotify.com/search/Bollywood%20Repeat%20Mode"
+    },
+    {
+      "id": "demo-evening-pop",
+      "name": "Evening Pop Comfort",
+      "trackCount": 28,
+      "spotifyUrl": "https://open.spotify.com/search/Evening%20Pop%20Comfort"
+    },
+    {
+      "id": "demo-discovery-starter",
+      "name": "Discovery Starter Pack",
+      "trackCount": 16,
+      "spotifyUrl": "https://open.spotify.com/search/Discovery%20Starter%20Pack"
+    }
+  ]
+}
