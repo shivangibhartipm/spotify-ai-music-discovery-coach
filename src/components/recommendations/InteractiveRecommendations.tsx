@@ -2,21 +2,15 @@
 
 import { useMemo, useState, useTransition } from "react";
 
+import {
+  getSurpriseRecommendationAction,
+  refreshRecommendationsAction,
+} from "@/app/(app)/dashboard/actions";
 import type { MusicRecommendation, SurpriseRecommendation } from "@/domain/recommendations";
 
 import { RecommendationGrid, RecommendationSkeletonGrid } from "./RecommendationGrid";
 import { RefreshButton } from "./RefreshButton";
 import { SurpriseModal } from "./SurpriseModal";
-
-type RecommendationsResponse = {
-  recommendations?: MusicRecommendation[];
-  error?: string;
-};
-
-type SurpriseResponse = {
-  recommendation?: SurpriseRecommendation;
-  error?: string;
-};
 
 export function InteractiveRecommendations({
   initialRecommendations,
@@ -40,23 +34,9 @@ export function InteractiveRecommendations({
       setError(null);
 
       try {
-        const searchParams = new URLSearchParams();
-        searchParams.set("mode", "refresh");
+        const result = await refreshRecommendationsAction(excludedIds);
 
-        for (const id of excludedIds) {
-          searchParams.append("exclude", id);
-        }
-
-        const response = await fetch(`/api/recommendations?${searchParams.toString()}`, {
-          credentials: "same-origin",
-        });
-        const payload = (await response.json()) as RecommendationsResponse;
-
-        if (!response.ok || !payload.recommendations) {
-          throw new Error(payload.error ?? "Unable to refresh recommendations.");
-        }
-
-        setRecommendations(payload.recommendations);
+        setRecommendations(result.recommendations);
       } catch (caughtError) {
         setError(
           caughtError instanceof Error
@@ -74,16 +54,9 @@ export function InteractiveRecommendations({
       setIsSurpriseOpen(true);
 
       try {
-        const response = await fetch("/api/surprise", {
-          credentials: "same-origin",
-        });
-        const payload = (await response.json()) as SurpriseResponse;
+        const result = await getSurpriseRecommendationAction();
 
-        if (!response.ok || !payload.recommendation) {
-          throw new Error(payload.error ?? "Unable to generate a surprise recommendation.");
-        }
-
-        setSurprise(payload.recommendation);
+        setSurprise(result.recommendation);
       } catch (caughtError) {
         setSurprise(null);
         setSurpriseError(

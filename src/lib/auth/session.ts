@@ -25,11 +25,46 @@ const cookieDefaults = {
   path: "/",
 };
 
-async function readSessionCookieValue(request?: NextRequest) {
-  const requestCookieValue = request?.cookies.get(SESSION_COOKIE_NAME)?.value;
+function getCookieFromHeader(cookieHeader: string | null, name: string) {
+  if (!cookieHeader) {
+    return undefined;
+  }
 
-  if (requestCookieValue) {
-    return requestCookieValue;
+  for (const part of cookieHeader.split(";")) {
+    const trimmed = part.trim();
+    const separatorIndex = trimmed.indexOf("=");
+
+    if (separatorIndex === -1) {
+      continue;
+    }
+
+    const key = trimmed.slice(0, separatorIndex);
+    const value = trimmed.slice(separatorIndex + 1);
+
+    if (key === name) {
+      return value;
+    }
+  }
+
+  return undefined;
+}
+
+async function readSessionCookieValue(request?: NextRequest) {
+  if (request) {
+    const requestCookieValue = request.cookies.get(SESSION_COOKIE_NAME)?.value;
+
+    if (requestCookieValue) {
+      return requestCookieValue;
+    }
+
+    const headerCookieValue = getCookieFromHeader(
+      request.headers.get("cookie"),
+      SESSION_COOKIE_NAME,
+    );
+
+    if (headerCookieValue) {
+      return headerCookieValue;
+    }
   }
 
   const cookieStore = await cookies();
@@ -106,7 +141,7 @@ export async function getValidSession(request?: NextRequest) {
     session?.mode === "spotify" &&
     validSession.accessToken !== session.accessToken;
 
-  if (tokenWasRefreshed && !request) {
+  if (tokenWasRefreshed) {
     await setSession(validSession);
   }
 
